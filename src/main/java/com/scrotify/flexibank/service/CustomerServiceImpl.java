@@ -90,7 +90,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@Transactional
 	public CustomerResponseDto registerCustomer(CustomerRequestDto customerRequestDto)
 			throws UserNameAlreadyExistException, EmailAlreadyExistException {
-		
+
 		CustomerResponseDto customerResponseDto = new CustomerResponseDto();
 		Customer customer = new Customer();
 		Account account = new Account();
@@ -131,13 +131,13 @@ public class CustomerServiceImpl implements CustomerService {
 		creditCard.setExpiryDate(LocalDate.now().plusYears(5));
 		creditCardRepository.save(creditCard);
 		logger.info("credit card created");
-		
+
 		EmailDto emailDto = new EmailDto();
 		BeanUtils.copyProperties(creditCard, emailDto);
 		emailDto.setEmail(customerRequestDto.getEmailId());
 		emailDto.setName(customerRequestDto.getName());
-		new EmailService().sendEmail(emailDto);
-		
+		// new EmailService().sendEmail(emailDto);
+
 		customerResponseDto.setMessage(Constant.SUCCESS);
 		customerResponseDto.setStatusCode(HttpStatus.OK.value());
 		logger.info("registration successsful");
