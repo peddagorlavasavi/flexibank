@@ -125,6 +125,9 @@ public class CustomerServiceImpl implements CustomerService {
 
 		CreditCard creditCard = new CreditCard();
 		creditCard.setAccount(account);
+		long number = (long) (new Random().nextDouble()*100000000000000L);
+		creditCard.setCreditCardNumber(Long.valueOf(52+String.format("%014d", number)));
+		System.out.println(creditCard.getCreditCardNumber());
 		creditCard.setPin(new Random().nextInt(8999) + 1000);
 		creditCard.setCvv(new Random().nextInt(899) + 100);
 		creditCard.setCardLimit(customerRequestDto.getSalary() * 2);
@@ -136,7 +139,7 @@ public class CustomerServiceImpl implements CustomerService {
 		BeanUtils.copyProperties(creditCard, emailDto);
 		emailDto.setEmail(customerRequestDto.getEmailId());
 		emailDto.setName(customerRequestDto.getName());
-		// new EmailService().sendEmail(emailDto);
+		new EmailService().sendEmail(emailDto);
 
 		customerResponseDto.setMessage(Constant.SUCCESS);
 		customerResponseDto.setStatusCode(HttpStatus.OK.value());
